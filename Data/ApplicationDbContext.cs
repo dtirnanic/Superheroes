@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Superhero.Models;
+using System;
 
 namespace Superhero.Data
 {
@@ -12,6 +13,7 @@ namespace Superhero.Data
         }
 
         public DbSet<SuperheroModel> Superheroes { get; set; }
+
 
     }
 }
