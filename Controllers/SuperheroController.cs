@@ -34,7 +34,8 @@ namespace Superhero.Controllers
         // GET: CRUD/Create
         public ActionResult Create()
         {
-            return View();
+            SuperheroModel superhero = new SuperheroModel();
+            return View(superhero);
         }
 
         // POST: CRUD/Create
@@ -44,7 +45,7 @@ namespace Superhero.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(superhero);
+                _context.Superheroes.Add(superhero);
                 _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
@@ -57,7 +58,15 @@ namespace Superhero.Controllers
         // GET: CRUD/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            if (id != 0)
+            {
+                return View(_context.Superheroes.SingleOrDefault());
+            }
+            else
+            {
+                return NotFound();
+            }
+            
         }
 
         // POST: CRUD/Edit/5
