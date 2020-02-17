@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Superhero.Data;
+using Superhero.Models;
 
 namespace Superhero.Controllers
 {
@@ -39,17 +40,17 @@ namespace Superhero.Controllers
         // POST: CRUD/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(SuperheroModel superhero)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add insert logic here
-
+                _context.Add(superhero);
+                _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            else
             {
-                return View();
+                return View(superhero);
             }
         }
 
