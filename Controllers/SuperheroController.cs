@@ -58,29 +58,27 @@ namespace Superhero.Controllers
         // GET: CRUD/Edit/5
         public ActionResult Edit(int id)
         {
-            if (id != 0)
-            {
-                return View(_context.Superheroes.SingleOrDefault());
-            }
-            else
-            {
-                return NotFound();
-            }
-            
+            var superhero = _context.Superheroes.Find(id);
+            return View(superhero);            
         }
 
         // POST: CRUD/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(SuperheroModel superhero)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add update logic here
-
+                var newHero = _context.Superheroes.Where(a => a.Id == superhero.Id).SingleOrDefault();
+                newHero.Name = superhero.Name;
+                newHero.AlterEgo = superhero.AlterEgo;
+                newHero.PrimaryAbility = superhero.PrimaryAbility;
+                newHero.SecondaryAbility = superhero.SecondaryAbility;
+                newHero.CatchPrase = superhero.CatchPrase;
+                _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            else
             {
                 return View();
             }
@@ -89,23 +87,24 @@ namespace Superhero.Controllers
         // GET: CRUD/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var superhero = _context.Superheroes.Find(id);
+            return View(superhero);
         }
 
         // POST: CRUD/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(SuperheroModel superhero)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add delete logic here
-
+                _context.Superheroes.Remove(superhero);
+                _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            else
             {
-                return View();
+                return View(superhero);
             }
         }
     }
