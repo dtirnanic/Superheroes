@@ -28,7 +28,7 @@ namespace Superhero.Controllers
         public ActionResult Details(int id)
         {
             
-            return View(_context.Superheroes.SingleOrDefault());
+            return View(_context.Superheroes.Find(id));
         }
 
         // GET: CRUD/Create
